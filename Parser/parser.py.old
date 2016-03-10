@@ -1,0 +1,53 @@
+from bs4 import BeautifulSoup as bs
+import pickle
+#return formatted html from a file
+def getHtml(filename):
+    inpt = open(filename + '.htm', 'r')
+    text = inpt.read()
+    txt = text.split('</p>')
+    txt = [bs(a + '</p>', 'html.parser') for a in txt]
+    inpt.close()
+    return txt
+
+#this should not be used, way too memory intensive
+def writeHTML(filename, output):
+    txt = getHtml(filename)
+    f = open(output + '.html', 'w')
+    pickle.dump(txt, f)
+    f.close()
+
+#return a list of all messages for a user in array of html
+def getUser(html, user):
+    output = []
+    for line in html:
+        try:
+            test = line.span.string
+        except:
+            pass
+        if test == user:
+            output.append(line)
+    return output
+
+#return a list of all messages for a user in array of text
+def getMessages(html, user):
+    output = []
+    for line in html:
+        try:
+            test = line.span.string
+	    if test == user and line.p.string != None:
+            	output.append(line.p.string + "\\")
+        except:
+            pass
+    return output
+         
+#return a list of all messages for a user in corpus of text
+def getCorpus(html, user):
+    output = ""
+    for line in html:
+        try:
+            test = line.span.string
+            if test == user and line.p.string != None:
+                output += str(line.p.string) + "\\ "
+        except:
+            pass
+    return output

@@ -1,0 +1,3 @@
+nltk
+bs4
+telepot
