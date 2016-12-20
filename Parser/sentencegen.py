@@ -29,3 +29,8 @@ def dialogue(filename, user):
     while True:
         query = raw_input()
         print genSentence(query, weight, bigrams, trigrams)
+
+if __name__ == "__main__":
+    filename = input("Please input filename")
+    user = input("Please input user name")
+    dialogue(filename, user)
